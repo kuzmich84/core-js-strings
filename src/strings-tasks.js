@@ -152,7 +152,10 @@ function repeatString(str, times) {
  *   removeFirstOccurrences('ABABAB', 'BA') => 'ABAB'.
  */
 function removeFirstOccurrences(str, value) {
-  return str.replace(value, '');
+  const index = str.indexOf(value);
+  return index !== -1
+    ? str.slice(0, index) + str.slice(index + value.length)
+    : str;
 }
 
 /**
@@ -247,9 +250,9 @@ function endsWith(str, substr) {
  *   formatTime(0, 0) => "00:00"
  */
 function formatTime(minutes, seconds) {
-  return `${
-    minutes.toString().length === 2 ? minutes : 0 + minutes.toString()
-  }:${seconds.toString() === 2 ? seconds : 0 + seconds.toString()}`;
+  return `${minutes.toString().padStart(2, 0)}:${seconds
+    .toString()
+    .padStart(2, 0)}`;
 }
 
 /**
@@ -312,15 +315,11 @@ function containsSubstring(str, substring) {
  *   countVowels('XYZ') => 1
  */
 function countVowels(str) {
-  const vowels = 'aeiouAEIOU';
-  let count = 0;
-
-  for (let i = 0; i < str.length; i += 1) {
-    if (vowels.indexOf(str[i]) !== -1) {
-      count += 1;
-    }
-  }
-  return count;
+  const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'];
+  return [...str].reduce(
+    (acc, item) => (vowels.includes(item) ? acc + 1 : acc),
+    0
+  );
 }
 
 /**
